@@ -69,5 +69,5 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
   config.vm.provision :shell, path: "vm-scripts/bootstrap.sh"
-  config.vm.provision :shell, path: "vm-scripts/start.sh", run: 'always'
+  #config.vm.provision :shell, path: "vm-scripts/start.sh", run: 'always'
 end
