@@ -7,7 +7,7 @@ var router = express.Router();
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './server/public/images/users/');
+        cb(null, './build/images/users/');
     },
     filename: function (req, file, cb) {
         var datetimestamp = Date.now();
@@ -18,6 +18,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage }).single('file');
 
+// get all users 
 router.get('/', verify.admin, function (req, res, next) {
 	User.find({}, function (err, users) {
 		if (err) {
@@ -32,8 +33,8 @@ router.get('/', verify.admin, function (req, res, next) {
 	});
 });
 
-router.post('/register', function (req, res, next) {
-
+router.post('/register/pic', function (req, res) {
+    
 	upload(req, res, function (err) {
 		if (err) {
 			return res.status(500).json({
@@ -43,39 +44,53 @@ router.post('/register', function (req, res, next) {
 		}
 
 		var pic = req.file.filename;
-		
-		User.register(
-			new User({ username: req.body.username }),
-			req.body.password,
-			function (err, user) {
-				if (err) {
-					return res.status(500).json({
-						state: false,
-						error: err.name,
-						message: err.message
-					});
-				}
 
-				user.firstname = req.body.firstname;
-				user.lastname = req.body.lastname;
-				user.imageUrl = "images/users/" + pic;
-					
-				user.save(function (err, user) {
-					passport.authenticate('local')(req, res, function () {
-						return res.json({
-							state: true,
-							message: 'Registration Successful!'
-						});
-					});
-				});
-
-			}
-		);
+		register(req, res, pic); // register user with given profile picture
 
 	});
 
 });
 
+// register new users
+router.post('/register', function (req, res) {
+
+	register(req, res); // register user without picture 'use default'
+
+});
+
+function register(req, res, userPicture) {
+	User.register(
+		new User({ username: req.body.email }),
+		req.body.password,
+		function (err, user) {
+			if (err) {
+				return res.status(500).json({
+					state: false,
+					error: err.name,
+					message: err.message
+				});
+			}
+
+			user.firstname = req.body.firstname;
+			user.lastname = req.body.lastname;
+			if (userPicture) {
+				user.imageUrl = "images/users/" + pic;
+			}
+				
+			user.save(function (err, user) {
+				passport.authenticate('local')(req, res, function () {
+					return res.json({
+						state: true,
+						message: 'Registration Successful!'
+					});
+				});
+			});
+
+		}
+	);
+}
+
+// login user account
 router.post('/login', function (req, res, next) {
 
 	passport.authenticate('local', function (err, user, info) {
@@ -142,6 +157,7 @@ router.post('/login', function (req, res, next) {
 
 });
 
+// logout
 router.get('/logout', verify.user, function (req, res) {
 	req.logOut();
 	res.json({

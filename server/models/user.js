@@ -15,6 +15,10 @@ var userSchema = new Schema({
         type: String,
         default: 'images/user.png'
     },
+    status: {
+        type: String,
+        default: 'pending'
+    },
     admin: {
         type: Boolean,
         default: false

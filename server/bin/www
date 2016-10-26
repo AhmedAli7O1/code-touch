@@ -3,38 +3,57 @@
 /**
  * Module dependencies.
  */
+var config = require('../config');
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 
-var app = require('../app');
-var debug = require('debug')('server:server');
-var http = require('http');
+var server;
+var app;
+var port;
 
-/**
- * Get port from environment and store in Express.
- */
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+// connnect to database
+mongoose.connect(config.MONGODB);
+var db = mongoose.connection;
 
-/**
- * Create HTTP server.
- */
+db.on('error', console.error.bind(console, 'connection error:'));
 
-var server = http.createServer(app);
+db.once('open', function () {
+    console.log('Connected to DB!');
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+    app = require('../app');
+    var http = require('http');
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
 
-// using socket.io here to respond to the npm stop signal
-let io = require('socket.io')(server);
-io.on('connection', (socketServer) => {
-    socketServer.on('npmStop', () => {
-        process.exit(0);
+    /**
+    * Get port from environment and store in Express.
+    */
+
+    port = normalizePort(process.env.PORT || '3000');
+    app.set('port', port);
+
+    /**
+    * Create HTTP server.
+    */
+
+    server = http.createServer(app);
+
+    /**
+    * Listen on provided port, on all network interfaces.
+    */
+
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+
+    // using socket.io here to respond to the npm stop signal
+    let io = require('socket.io')(server);
+    io.on('connection', (socketServer) => {
+        socketServer.on('npmStop', () => {
+            process.exit(0);
+        });
     });
+
 });
 
 /**
