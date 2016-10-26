@@ -1,12 +1,174 @@
 <section>
     <div class="container">
-        <form novalidate class="form-horizontal" id="register-form" name="register-form" ng-submit="submit()">
-            <div class="form-group">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" id="sample3">
-                    <label class="mdl-textfield__label" for="sample3">Text...</label>
+        <div id="register-box">
+
+            <form novalidate class="form-horizontal" id="register-form" name="register.registerForm" ng-submit="register.submit()">
+                
+                <div class="row">
+                    <!-- left side --> 
+                    <div class="col-xs-12 col-sm-8">
+
+                        <!-- first name input --> 
+                        <div class="form-group has-feedback" 
+                            ng-class="{
+                                'has-success': register.registerForm.rgName.$valid,
+                                'has-error': register.registerForm.rgName.$invalid && register.registerForm.rgName.$dirty
+                            }">
+
+                            <label for="rg-name" class="control-label col-xs-12">First Name</label>
+
+                                <div class="col-xs-12">
+                                    <input type="text" class="form-control" id="rg-name" ng-model="register.rgName" name="rgName" 
+                                    placeholder="type your first name..." required>
+                                        <span ng-show="register.registerForm.rgName.$valid" 
+                                            class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                                        <span ng-show="register.registerForm.rgName.$invalid && register.registerForm.rgName.$dirty" 
+                                            class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                                </div>
+                        </div>
+                        <!-- ./ first name input -->
+
+                        <!-- last name input --> 
+                        <div class="form-group has-feedback" 
+                            ng-class="{
+                                'has-success': register.registerForm.rgName2.$valid,
+                                'has-error': register.registerForm.rgName2.$invalid && register.registerForm.rgName2.$dirty
+                            }">
+
+                            <label for="rg-name2" class="control-label col-xs-12">Last Name</label>
+
+                                <div class="col-xs-12">
+                                    <input type="text" class="form-control" id="rg-name2" ng-model="register.rgName2" name="rgName2" 
+                                    placeholder="type your last name..." required>
+                                        <span ng-show="register.registerForm.rgName2.$valid" 
+                                            class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                                        <span ng-show="register.registerForm.rgName2.$invalid && register.registerForm.rgName2.$dirty" 
+                                            class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                                </div>
+                        </div>
+                        <!-- ./ last name input -->
+
+                        <!-- email input --> 
+                        <div class="form-group has-feedback" 
+                            ng-class="{
+                                'has-success': register.registerForm.rgEmail.$valid,
+                                'has-error': register.registerForm.rgEmail.$invalid && register.registerForm.rgEmail.$dirty
+                            }">
+
+                            <label for="rg-email" class="control-label col-xs-12">Email</label>
+
+                                <div class="col-xs-12">
+                                    <input type="email" class="form-control" id="rg-email" ng-model="register.rgEmail" name="rgEmail" 
+                                    placeholder="type your email address..." blu-validate-email required>
+                                        <span ng-show="register.registerForm.rgEmail.$valid" 
+                                            class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                                        <span ng-show="register.registerForm.rgEmail.$invalid && register.registerForm.rgEmail.$dirty" 
+                                            class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                                </div>
+                        </div>
+                        <!-- ./ email input -->
+
+                        <!-- password input --> 
+                        <div class="form-group has-feedback" 
+                            ng-class="{
+                                'has-success': register.registerForm.rgPassword.$valid,
+                                'has-error': register.registerForm.rgPassword.$invalid && register.registerForm.rgPassword.$dirty
+                            }">
+
+                            <label for="rg-password" class="control-label col-xs-12">Password</label>
+
+                                <div class="col-xs-12">
+                                    <input type="password" class="form-control" id="rg-password" ng-model="register.rgPassword" name="rgPassword" 
+                                    placeholder="type your password..." required>
+                                        <span ng-show="register.registerForm.rgPassword.$valid" 
+                                            class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                                        <span ng-show="register.registerForm.rgPassword.$invalid && register.registerForm.rgPassword.$dirty" 
+                                            class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                                </div>
+                        </div>
+                        <!-- ./ password input -->
+
+                        <!-- password confirm input --> 
+                        <div class="form-group has-feedback" 
+                            ng-class="{
+                                'has-success': register.registerForm.rgPassword2.$valid,
+                                'has-error': register.registerForm.rgPassword2.$invalid && register.registerForm.rgPassword2.$dirty
+                            }">
+
+                            <label for="rg-password2" class="control-label col-xs-12">Confirm Password</label>
+
+                                <div class="col-xs-12">
+                                    <input type="password" class="form-control" id="rg-password2" ng-model="register.rgPassword2" name="rgPassword2" 
+                                    placeholder="type your password again..." blu-validate-password="register.rgPassword" required>
+                                        <span ng-show="register.registerForm.rgPassword2.$valid" 
+                                            class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                                        <span ng-show="register.registerForm.rgPassword2.$invalid && register.registerForm.rgPassword2.$dirty" 
+                                            class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                                </div>
+                        </div>
+                        <!-- ./ password confirm input -->
+
+                    </div>
+
+                    <!-- right side -->
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="row">
+                            
+                            <!-- user picture --> 
+                            <div class="col-xs-12">
+
+                                <div class="user-pic">
+
+                                    <img id="rgImage" class="img-responsive img-thumbnail" 
+                                    ngf-thumbnail="register.file || 'images/user.png'">
+
+                                </div>
+                            
+                            </div>
+
+                            <!-- image input -->
+                            <div class="col-xs-12">
+                                
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <label class="btn btn-primary btn-block btn-custom select-label">
+                                            Select <input id="rgUpload" type="file" ngf-select name="file" ng-model="register.file"
+                                                ngf-pattern="'image/*'" accept="image/*"
+                                                ngf-max-size="5MB" style="display: none;">
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
                 </div>
-            </div>
-        </form>
+
+                <!-- form buttons -->
+                <div class="form-group form-controls">
+
+                    <div class="col-xs-12 col-md-6 form-button">
+                        <button type="submit" class="btn btn-success btn-custom" 
+                            ng-disabled="register.registerForm.$pristine || register.registerForm.$invalid">Sign up</button>
+                    </div>
+                    <div class="col-xs-12 col-md-6 form-button">
+                        <button type="reset" ng-click="register.clear()" class="btn btn-defalut btn-custom">Reset</button>
+                    </div>
+
+                </div> 
+
+                
+                <!-- form message -->
+			    <i ng-show="register.registerForm.file.$error.maxSize">File too large
+				    {{adminNp.file.size / 1000000|number:1}}MB: max 5MB
+                </i>
+
+            </form>
+
+        </div>
     </div>
 </section>

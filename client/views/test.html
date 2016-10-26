@@ -1,0 +1,19 @@
+          <!-- image input -->
+			<div class="form-group">
+				<label for="np-upload" class="control-label col-xs-12 col-sm-2">Upload Image</label>
+				<div class="col-xs-12 col-sm-10">
+					<label class="btn btn-primary btn-block">
+						Select <input id="np-upload" type="file" ngf-select name="file" ng-model="register.file"
+							ngf-pattern="'image/*'" accept="image/*"
+							ngf-max-size="5MB" style="display: none;" required>
+					</label>
+					<div class="progress">
+						<div class="progress-bar progress-bar-success progress-bar-striped active"
+							role="progressbar" aria-valuenow="{{register.progress}}" ng-model="register.progress"
+							aria-valuemin="0" aria-valuemax="100" style="width: {{register.progress}}%">
+							{{register.progress}}%
+							<span class="sr-only">{{register.progress}}% Complete (success)</span>
+						</div>
+					</div>
+				</div>
+			</div>
