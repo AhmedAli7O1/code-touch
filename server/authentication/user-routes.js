@@ -7,7 +7,7 @@ var router = express.Router();
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './build/images/users/');
+        cb(null, './build/images/');
     },
     filename: function (req, file, cb) {
         var datetimestamp = Date.now();
@@ -34,9 +34,9 @@ router.get('/', verify.admin, function (req, res, next) {
 });
 
 router.post('/register/pic', function (req, res) {
-    
 	upload(req, res, function (err) {
 		if (err) {
+			console.log(err);
 			return res.status(500).json({
 				state: false,
 				error: err
@@ -59,8 +59,9 @@ router.post('/register', function (req, res) {
 });
 
 function register(req, res, userPicture) {
+
 	User.register(
-		new User({ username: req.body.email }),
+		new User({ username: req.body.username }),
 		req.body.password,
 		function (err, user) {
 			if (err) {
@@ -74,7 +75,7 @@ function register(req, res, userPicture) {
 			user.firstname = req.body.firstname;
 			user.lastname = req.body.lastname;
 			if (userPicture) {
-				user.imageUrl = "images/users/" + pic;
+				user.imageUrl = "images/users/" + userPicture;
 			}
 				
 			user.save(function (err, user) {

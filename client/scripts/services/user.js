@@ -8,7 +8,7 @@ codeTouch.factory('userFactory', ['uploadFactory','API','$resource',
             register: function (userInfo) {
 
                 var userData = {
-                    email: userInfo.email,
+                    username: userInfo.email,
                     firstname: userInfo.firstName,
                     lastname: userInfo.lastName,
                     password: userInfo.password
@@ -16,14 +16,18 @@ codeTouch.factory('userFactory', ['uploadFactory','API','$resource',
 
                 // if user has picture use method one 
                 if(userInfo.picture) {
-                    userData.file = userInfo.picture;
+                    return new Promise((resolve, reject) => {
 
-                    // upload to the server 
-                    upload(API.USER_REGISTER_PIC, userData, function (err, msg) {
-                        return new Promise((resolve, reject) => {
-                            if (err) return reject(err);
-                            resolve(msg);
+                        userData.file = userInfo.picture;
+                        // upload to the server 
+                        upload(API.USER_REGISTER_PIC, userData, function (err, res) {
+                            
+                                if (err) return reject(err);
+                                res.needApply = true; // means you need to apply this data to the scope in order to be reflected
+                                resolve(res.data);
+                            
                         });
+
                     });
                     
                 }

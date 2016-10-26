@@ -11,14 +11,14 @@ codeTouch.factory('uploadFactory', ['Upload',
             .then(
                 function (res) {
                     if (res.data.state === true) {
-                        cb(null, res.data.message);
+                        cb(null, res);
                     }
                     else {
-                        cb(res.data.message, null);
+                        cb(res, null);
                     }
                 },
                 function (err) {
-                    cb(err.data.message, null);
+                    cb(err, null);
                 }
             );
         }

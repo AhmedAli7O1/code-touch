@@ -149,10 +149,16 @@
                 </div>
 
                 <!-- alert -->
-                <div class="alert alert-warning" ng-show="register.hasError">
+                <div class="alert" ng-class="{ 'alert-danger': register.hasError, 'alert-success': register.hasSuccess }" 
+                    ng-show="register.hasError || register.hasSuccess">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>{{ register.errorTitle }}!</strong> {{ register.errorMsg }}
+                    <strong>{{ register.msgTitle }}!</strong> {{ register.msgBody }}
                 </div>
+
+                <!-- form message -->
+			    <i ng-show="register.registerForm.file.$error.maxSize">File too large
+				    {{register.file.size / 1000000|number:1}}MB: max 5MB
+                </i>
 
                 <!-- form buttons -->
                 <div class="form-group form-controls">
@@ -166,12 +172,6 @@
                     </div>
 
                 </div> 
-
-                
-                <!-- form message -->
-			    <i ng-show="register.registerForm.file.$error.maxSize">File too large
-				    {{adminNp.file.size / 1000000|number:1}}MB: max 5MB
-                </i>
 
             </form>
 
