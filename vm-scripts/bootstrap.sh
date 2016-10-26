@@ -22,7 +22,7 @@ sudo npm install -g bower
 sudo npm install -g gulp-cli
 
 # install node modules
-(cd /vagrant && sudo npm install)
+(cd /vagrant && sudo npm install --no-optional --no-bin-links)
 
 # install bower modules
 (cd /vagrant && sudo bower install --allow-root)
