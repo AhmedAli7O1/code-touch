@@ -1,6 +1,7 @@
 var codeTouch = angular.module('codeTouch', [
     'ui.router',
-    'ngFileUpload'
+    'ngFileUpload',
+    'ngResource'
 ]);
 
 codeTouch.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {

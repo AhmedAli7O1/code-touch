@@ -148,6 +148,12 @@
 
                 </div>
 
+                <!-- alert -->
+                <div class="alert alert-warning" ng-show="register.hasError">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>{{ register.errorTitle }}!</strong> {{ register.errorMsg }}
+                </div>
+
                 <!-- form buttons -->
                 <div class="form-group form-controls">
 
@@ -168,6 +174,11 @@
                 </i>
 
             </form>
+
+            <div class="google-register">
+                <p>or Sign up With Google Account</p>
+                <button class="btn btn-defalut btn-custom"><img src="images/google.svg"> Sign up</button>
+            </div>
 
         </div>
     </div>

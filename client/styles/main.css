@@ -129,7 +129,31 @@ div[data-ui-view="content"] {
 }
 
 #register-box .user-pic {
+    text-align: center;
     padding: 30px 0 0 6px;
+}
+
+#register-box .google-register {
+    text-align: center;
+    line-height: 2em;
+}
+
+#register-box .google-register button {
+    color: #5C5C70;
+    border-color: rgba(0,0,0,0.2);
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+}
+
+#register-box .google-register img {
+    height: 20px;
+    width: auto; 
+    display: inline-block;
+    position: relative;
 }
 
 .select-label {
@@ -161,4 +185,11 @@ footer {
 footer .navbar-brand {
     width: 100%;
     text-align: center; 
+}
+
+@media only screen and (max-width: 768px) {
+    #register-box {
+        height: 1000px;
+
+    }
 }
