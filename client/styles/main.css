@@ -1,3 +1,125 @@
+/* general styling */
+* {
+    padding: 0;
+    margin: 0;
+}
+
 body {
     font-family: Roboto;
+    background: #F5F5F5; 
+    min-height: 100%;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.btn-custom { 
+    border-radius: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* Header */
+nav.navbar {
+    box-shadow: 0 0 5px #888888;
+    padding: 0 10px;
+    font-weight: 500;
+}
+
+nav.navbar li > a:hover {
+    color: #fff !important;
+    background: #00E58B !important;
+}
+
+/* logo styling (text & font-icon) */
+.navbar-brand {
+    color: #3F3F3F !important; 
+    text-transform: uppercase;
+}
+
+footer .navbar-brand {
+    color: #fff !important; 
+}
+
+.navbar-brand i, .navbar-brand span {
+    color: #00E58B !important;
+}
+
+/* header banner */
+header .container-fluid {
+    padding: 0;
+}
+
+div[data-ui-view="content"] {
+    margin: 70px 0;
+}
+
+/* welcome card */
+.welcome-card {
+    margin: 50px auto;
+    width: 400px;
+    height: 450px;
+    box-shadow: 0 0 5px #888888;
+}
+
+.welcome-card > .card-header {
+    height: 30%;
+    background: url('../images/welcome.jpg') center / cover;
+    color: #fff;
+    position: relative;
+    padding: 10px;
+}
+
+.card-header > .title-text {
+    position: absolute;
+    bottom: 0;
+}
+
+.welcome-card > .card-body {
+    height: 58%;
+    padding: 10px;
+    background: #fff;
+}
+
+.welcome-card > .card-body p {
+    font-size: 1.1em;
+    line-height: 1.3em;
+    margin-top: 20px;
+    color: #5C5C5C;
+}
+
+.welcome-card > .card-footer {
+    border-top: 1px solid #E5E5E5;
+    background: #fff;
+    padding: 10px;
+}
+
+.welcome-card a.btn {
+    border-color: #E5E5E5; 
+}
+
+/* social icons */
+div.social-icons i {
+    display: inline-block;
+    color: #888888;
+}
+
+div.social-icons i:hover {
+    color: #000;
+}
+
+/* footer */
+footer {
+    height: 50px;
+    background: #3F3F3F; 
+    position: fixed;
+    bottom:0;
+    z-index: 1;
+    width: 100%; 
+}
+
+footer .navbar-brand {
+    width: 100%;
+    text-align: center; 
 }

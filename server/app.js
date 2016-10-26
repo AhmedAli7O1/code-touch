@@ -13,15 +13,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../client')));
-app.use(express.static(path.join(__dirname, '../bower_components')));
+app.use(express.static(path.join(__dirname, '../build')));
 
 app.use('/', function (req, res) {
 
     res.status(200).end('<h1>Welcome to Code Touch Server Default Page</h1>');
 
-});
-
+}); 
+ 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

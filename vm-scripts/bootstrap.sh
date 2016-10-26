@@ -18,6 +18,9 @@ sudo apt-get install -y mongodb-org
 # install bower
 sudo npm install -g bower
 
+# install gulp
+sudo npm install -g gulp-cli
+
 # install node modules
 (cd /vagrant && sudo npm install)
 
