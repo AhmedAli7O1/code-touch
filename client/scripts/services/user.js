@@ -4,6 +4,7 @@ codeTouch.factory('userFactory', ['uploadFactory','API','$resource',
 
         return {
 
+            // register new user
             register: function (userInfo) {
 
                 var userData = {
@@ -35,6 +36,7 @@ codeTouch.factory('userFactory', ['uploadFactory','API','$resource',
 
             },
 
+            // validate user email
             validateEmail: function (email) {
                 return $resource(API.VALIDATE_EMAIL, { email: email }).get().$promise;
             }
