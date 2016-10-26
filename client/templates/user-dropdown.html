@@ -1,0 +1,66 @@
+<li class="dropdown">
+    <a class="dropdown-toggle" ng-if="!user.isLoggedIn" data-toggle="dropdown" role="button"
+       aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Login</a>
+    <ul class="dropdown-menu nav-dropdown" ng-if="!user.isLoggedIn">
+        <div class="row">
+            <div class="col-xs-12 google-register">
+                <p>Login via Google Account</p>
+                <button class="btn btn-defalut btn-custom"><img src="images/google.svg"> Login</button>
+            </div>
+        </div>
+        <p>or</p>
+        <form class="form-horizontal" ng-submit="user.login()">
+            <div class="form-group has-feedback" ng-class="{ 'has-error': user.emailErr }">
+                <div class="col-xs-12">
+                    <label for="email-input" class="sr-only control-label">Email</label>
+                    <input type="email" ng-model="user.userEmail" class="form-control"
+                           id="email-input" placeholder="enter your email..">
+                    <span ng-show="user.emailErr"
+                          class="glyphicon glyphicon-info-sign form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="form-group has-feedback" ng-class="{ 'has-error': user.passErr }">
+                <div class="col-xs-12">
+                    <label for="password-input" class="sr-only control-label">Password</label>
+                    <input type="password" ng-model="user.password" class="form-control"
+                           id="password-input" placeholder="enter your password..">
+                    <span ng-show="user.passErr"
+                          class="glyphicon glyphicon-info-sign form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <a href="" class="pull-right">Forget your password?</a>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <button type="submit" class="btn btn-success btn-block">Sign in</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="user.keepInfo"> keep me logged-in
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row nav-dropdown-bottom">
+            <div class="col-xs-12">
+                New here? <a ui-sref="app.register" role="button">Join Us</a>
+            </div>
+        </div>
+    </ul>
+
+    <a id="user-dropdown" class="dropdown-toggle" ng-if="user.isLoggedIn" data-toggle="dropdown" role="button"
+       aria-haspopup="true" aria-expanded="false">
+       <img class="profile-image img-circle" ng-src=" {{ user.userImage }} ">
+         {{ user.fullName }}</a>
+    <ul class="dropdown-menu" ng-if="user.isLoggedIn">
+        <li><a ng-click="user.logout()">Sign out</a></li>
+    </ul>
+</li>

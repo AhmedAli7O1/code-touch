@@ -46,6 +46,31 @@ footer .navbar-brand {
     color: #00E58B !important;
 }
 
+/* user dropdown */
+#user-dropdown {
+	padding-top: 10px;
+	padding-bottom: 8px;
+}
+
+.nav-dropdown {
+    min-width: 250px;
+    padding: 14px 14px 0;
+    overflow: hidden;
+    background-color: rgba(230, 230, 230, .8);
+}
+
+.nav-dropdown-bottom {
+    background-color: rgba(255, 255, 255, .8);
+    border-top: 1px solid #ddd;
+    clear: both;
+    padding: 14px;
+    text-align: center;
+}
+
+.nav-dropdown .row {
+    padding-bottom: 20px;
+}
+
 /* header banner */
 header .container-fluid {
     padding: 0;
@@ -133,12 +158,12 @@ div[data-ui-view="content"] {
     padding: 30px 0 0 6px;
 }
 
-#register-box .google-register {
+.google-register {
     text-align: center;
     line-height: 2em;
 }
 
-#register-box .google-register button {
+.google-register button {
     color: #5C5C70;
     border-color: rgba(0,0,0,0.2);
     position: relative;
@@ -149,7 +174,7 @@ div[data-ui-view="content"] {
     width: 150px;
 }
 
-#register-box .google-register img {
+.google-register img {
     height: 20px;
     width: auto; 
     display: inline-block;

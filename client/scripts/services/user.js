@@ -39,6 +39,21 @@ codeTouch.factory('userFactory', ['uploadFactory','API','$resource',
             // validate user email
             validateEmail: function (email) {
                 return $resource(API.VALIDATE_EMAIL, { email: email }).get().$promise;
+            },
+
+            // login user account
+            login: function(email, password){
+
+                return $resource(API.USER_LOGIN)
+                    .save({}, { email: email, password: password }).$promise;
+
+            },
+
+            // logout current user
+            logout: function() {
+
+                return $resource(API.USER_LOGOUT);
+
             }
 
         }
