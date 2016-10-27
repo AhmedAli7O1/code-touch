@@ -138,7 +138,7 @@ router.post('/login', function (req, res, next) {
 			var token = verify.getToken({
 				username: user.username,
 				_id: user._id,
-				admin: true
+				admin: user.admin
 			});
 
 			res.json({
@@ -158,6 +158,39 @@ router.post('/login', function (req, res, next) {
 
 });
 
+router.get('/login/google', passport.authenticate('google', { scope: 'openid profile' }));
+
+router.get('/login/google/callback', function (req, res, next) {
+
+	passport.authenticate('google', function (err, user, info) {
+
+		if (err) {
+			return res.status(500).json({ error: err });
+		}
+
+		if(!user) {
+			return res.status(401).json({ error: info });
+		}
+
+		req.logIn(user, function (err) {
+			if (err) {
+				return res.status(500).json({ error: 'could not log in!' });
+			}
+			
+			// get token and send it
+			var token = verify.getToken({
+				username: user.username,
+				_id: user._id
+			});
+			
+			res.redirect('/#/login/success?token=' + token);
+
+		});
+
+	})(req, res, next);
+
+});
+
 // logout
 router.get('/logout', verify.user, function (req, res) {
 	req.logOut();
@@ -169,5 +202,12 @@ router.get('/logout', verify.user, function (req, res) {
 
 // verify that incoming token is valid
 router.get('/token', verify.token);
+
+// get current user 'owner of this token' info
+router.get('/current', verify.user, function (req, res) {
+	res.status(200).json({
+		userData: req.userData
+	});
+});
 
 module.exports = router;

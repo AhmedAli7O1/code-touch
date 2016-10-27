@@ -53,6 +53,11 @@ codeTouch.factory('userFactory', ['uploadFactory','API','$resource',
 
             },
 
+            // get current user info
+            getCurrent: function () {
+                return $resource(API.GET_CURRENT_USER_INFO).get().$promise;
+            },
+
             // logout current user
             logout: function() {
 

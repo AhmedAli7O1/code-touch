@@ -37,9 +37,24 @@ codeTouch.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                     controller: "RegisterCtrl",
                     controllerAs: "register"
                     
-                },
+                }
+            },
+            data: { auth: 'none' }
+        })
+        
+        .state('app.loginSuccess', {
+            url: 'login/success?token',
+            views: {
+                'content@': {
+                    templateUrl: "views/login-success.html",
+                    controller: "loginSuccessCtrl",
+                    controllerAs: "loginSuccess"
+                }
             },
             data: { auth: 'none' }
         });
+
+    // register the http interceptors
+    $httpProvider.interceptors.push('httpInterceptor');
 
 });

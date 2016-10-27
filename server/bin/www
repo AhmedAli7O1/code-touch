@@ -47,7 +47,7 @@ db.once('open', function () {
     server.on('listening', onListening);
 
     // using socket.io here to respond to the npm stop signal
-    let io = require('socket.io')(server);
+    var io = require('socket.io')(server);
     io.on('connection', (socketServer) => {
         socketServer.on('npmStop', () => {
             process.exit(0);
