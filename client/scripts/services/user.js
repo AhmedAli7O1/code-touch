@@ -72,6 +72,11 @@ codeTouch.factory('userFactory', ['uploadFactory','API','$resource',
              */
             verifyToken: function () {
                 return $resource(API.USER_TOKEN).get().$promise;
+            },
+
+            // resend email verification to the user
+            resendEmail: function () {
+                return $resource(API.RESEND_EMAIL).get().$promise;
             }
 
         }

@@ -1,5 +1,5 @@
-codeTouch.controller('confirmEmailCtrl', ['$state', '$stateParams',
-    function ($state, $stateParams) {
+codeTouch.controller('confirmEmailCtrl', ['$state', '$stateParams', 'localStorageFactory', 'CONFIG',
+    function ($state, $stateParams, localStorage, CONFIG) {
         'use strict';
 
         var ctr = this;
@@ -10,6 +10,7 @@ codeTouch.controller('confirmEmailCtrl', ['$state', '$stateParams',
             ctr.state = 'success';
             ctr.title = 'Success';
             ctr.msg = "your account is now verified, thank you!";
+            localStorage.remove(CONFIG.TOKEN_STORE_KEY); // remove old token
         }
         else if (state && state === 'error&key'){
             ctr.state = 'error';

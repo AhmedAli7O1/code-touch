@@ -41,14 +41,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Modal title</h4>
+                <h4 class="modal-title">Verify your email!</h4>
             </div>
             <div class="modal-body">
-                
+                <p>We just need to validate your email address to activate all the available futures.</p>
+                <p>
+                    if you believe that you didn't get your email confirmation message click on "Resend 
+                    Activation" button and we'll take care of that. thanks.
+                </p> 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" ng-click="home.resendEmail();" class="btn btn-primary" 
+                blu-btn-loading="home.resendEmailLoading">Resend Activation</button>
             </div>
         </div>
     </div>

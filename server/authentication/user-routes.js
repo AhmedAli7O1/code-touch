@@ -342,4 +342,29 @@ router.get('/validate-email/:email', function (req, res) {
 
 });
 
+// resend email verification to the user
+router.get('/resend-email', verify.user, function (req, res) {
+	var userData = req.userData;
+	
+	User.findOne({ _id: req.userData._id })
+		.exec((err, user) => {
+
+			if (err) {
+				return res.status(500).json({ error: 'error-find-user', message: err });
+			}
+			
+			if (!user) {
+				return res.status(404).json({ error: 'no-user', message: 'no user found!' }); 
+			}
+
+			sendMail(user, function (err) {
+				if (err) {
+					return res.status(500).json({ error: 'email-send-error', message: 'error while tring to send email!' }); 
+				}
+				res.status(200).json({ message: 'email sent!' });
+			});
+
+		});
+});
+
 module.exports = router;
