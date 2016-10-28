@@ -33,7 +33,7 @@ passport.use(new GoogleStrategy(
                 user.lastname = profile.name.familyName;
                 user.displayName = profile.displayName;
                 user.imageUrl = profile.photos[0].value;
-                user.status = true;
+                user.status = 'active';
                 user.save((err) => {
                     if(err) {
                         console(err);

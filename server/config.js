@@ -6,8 +6,6 @@ module.exports = {
 	GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || 'TestTestTestTestTestTestTestTest',
 	GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || 'TestTestTestTestTestTestTestTest',
 	GOOGLE_AUTH_CB: process.env.GOOGLE_AUTH_CB || 'http://localhost:3000/users/login/google/callback', // google auth callback
-	GMAIL_ACCOUNT: process.env.GMAIL_ACCOUNT || '',
-	GMAIL_PASSWORD: process.env.GMAIL_PASSWORD || '',
 	
 	// Mailjet config
 	MJ_APIKEY_PUBLIC: process.env.MJ_APIKEY_PUBLIC || '',

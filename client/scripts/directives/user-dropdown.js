@@ -65,7 +65,7 @@ codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'l
                     dir.fullName = userData.displayName;
                     dir.userImage = userData.imageUrl;
 
-                    if(userData.state !== 'active') {
+                    if(userData.status !== 'active') {
                         $rootScope.showEmailConfirmMsg = true;
                     }
 
