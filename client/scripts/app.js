@@ -20,7 +20,9 @@ codeTouch.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                     templateUrl: "views/header.html"
                 },
                 'content': {
-                    templateUrl: "views/home.html"
+                    templateUrl: "views/home.html",
+                    controller: "homeCtrl",
+                    controllerAs: "home"
                 },
                 'footer': {
                     templateUrl: "views/footer.html"
@@ -39,7 +41,7 @@ codeTouch.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                     
                 }
             },
-            data: { auth: 'none' }
+            data: { auth: 'no_user' }
         })
         
         .state('app.loginSuccess', {
@@ -56,5 +58,30 @@ codeTouch.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
     // register the http interceptors
     $httpProvider.interceptors.push('httpInterceptor');
+
+});
+
+
+codeTouch.run(function ($rootScope, $state) {
+
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        // pervent nav to user/admin pages without auth
+        if (toState.data.auth === 'admin' && (!$rootScope.userInfo || !$rootScope.userInfo.isAdmin)) {
+            event.preventDefault();
+            $state.go('app');
+            return false;
+        }
+        else if (toState.data.auth === 'user' && !$rootScope.userInfo) {
+            event.preventDefault();
+            $state.go('app');
+            return false;
+        }
+        else if (toState.data.auth === 'no_user' && $rootScope.userInfo) {
+            event.preventDefault();
+            $state.go('app');
+            return false;
+        }
+
+    });
 
 });

@@ -75,7 +75,7 @@ function register(req, res, userPicture) {
 			user.firstname = req.body.firstname;
 			user.lastname = req.body.lastname;
 			if (userPicture) {
-				user.imageUrl = "images/users/" + userPicture;
+				user.imageUrl = "images/" + userPicture;
 			}
 				
 			user.save(function (err, user) {
@@ -208,6 +208,20 @@ router.get('/current', verify.user, function (req, res) {
 	res.status(200).json({
 		userData: req.userData
 	});
+});
+
+// verify that guest can register with this email
+router.get('/validate-email/:email', function (req, res) {
+
+	var email = req.params.email;
+
+	User.findOne({ username: email }, function (err, user) {
+		if (user) {
+			return res.status(406).json({ error: 'user-exist', message: 'invalid email, already taken!' });
+		}
+		return res.status(200).json({ message: 'valid email' });
+	});
+
 });
 
 module.exports = router;

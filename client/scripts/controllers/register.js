@@ -18,6 +18,7 @@ codeTouch.controller('RegisterCtrl', ['$scope', '$rootScope','userFactory',
 
         // register new user
         ctr.submit = function () {
+            ctr.registerLoading = true; // change register button state to loading
 
             var userInfo = {
                 email: ctr.rgEmail,
@@ -55,9 +56,10 @@ codeTouch.controller('RegisterCtrl', ['$scope', '$rootScope','userFactory',
                     ctr.hasError = true;
                     ctr.hasSuccess = false;
                     ctr.msgTitle = "Error";
-                    ctr.msgBody = 'Error in Registration process with the server!';
+                    ctr.msgBody = err.data.message;
                     console.log(err);
-                });
+                })
+                .finally(() => ctr.registerLoading = false ); // change register button state back
 
         };
 

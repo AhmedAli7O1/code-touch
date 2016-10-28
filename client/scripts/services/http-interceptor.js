@@ -18,7 +18,7 @@ codeTouch.factory('httpInterceptor', ['$q', '$rootScope', '$log', 'localStorageF
 			},
 
 			'response': function (response) {
-				$log.info({ httpRes: response });
+				//$log.info({ httpRes: response });
 				return response;
 			},
 

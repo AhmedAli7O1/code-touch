@@ -49,7 +49,7 @@ codeTouch.factory('userFactory', ['uploadFactory','API','$resource',
             login: function(email, password){
 
                 return $resource(API.USER_LOGIN)
-                    .save({}, { email: email, password: password }).$promise;
+                    .save({}, { username: email, password: password }).$promise;
 
             },
 
@@ -61,7 +61,7 @@ codeTouch.factory('userFactory', ['uploadFactory','API','$resource',
             // logout current user
             logout: function() {
 
-                return $resource(API.USER_LOGOUT);
+                return $resource(API.USER_LOGOUT).get().$promise;
 
             }
 

@@ -12,14 +12,8 @@ codeTouch.directive('bluValidateEmail', ['userFactory',
 
                     // validate user email using element.val()
                     user.validateEmail(element.val())
-                        .then((res) => {
-                            if (res.state) {
-                                scope.register.registerForm.rgEmail.$setValidity("email", true);
-                            }
-                            else {
-                                scope.register.registerForm.rgEmail.$setValidity("email", false);
-                            }
-                        });
+                        .then((res) => scope.register.registerForm.rgEmail.$setValidity("email", true))
+                        .catch(() => scope.register.registerForm.rgEmail.$setValidity("email", false));
 
                 });
 

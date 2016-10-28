@@ -163,7 +163,7 @@ div[data-ui-view="content"] {
     line-height: 2em;
 }
 
-.google-register button {
+.google-register a {
     color: #5C5C70;
     border-color: rgba(0,0,0,0.2);
     position: relative;
@@ -185,6 +185,11 @@ div[data-ui-view="content"] {
     margin-top: 30px;
     text-align: center !important;
     color: #fff !important;
+}
+
+.profile-image {
+    height: 30px;
+    width: 30px;
 }
 
 /* social icons */
