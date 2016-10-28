@@ -16,7 +16,7 @@ passport.use(new GoogleStrategy(
     },
     function (accessToken, refreshToken, profile, done) {
         User.findOne({ oAuthId: profile.id }, function (err, user) {
-
+            console.log(profile);
             if (err) {
                 console.log(err);
                 done(err);
@@ -29,6 +29,10 @@ passport.use(new GoogleStrategy(
                 user = new User({ username: profile.id });
                 user.oAuthId = profile.id;
                 user.oAuthToken = accessToken;
+                user.firstname = profile.name.givenName;
+                user.lastname = profile.name.familyName;
+                user.displayName = profile.displayName;
+                user.imageUrl = profile.photos[0].value;
                 user.save((err) => {
                     if(err) {
                         console(err);

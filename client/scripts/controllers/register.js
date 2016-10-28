@@ -1,5 +1,5 @@
-codeTouch.controller('RegisterCtrl', ['$scope', '$rootScope','userFactory',
-    function ($scope, $rootScope, user) {
+codeTouch.controller('RegisterCtrl', ['$scope', '$rootScope','userFactory','$state','$timeout',
+    function ($scope, $rootScope, user, $state, $timeout) {
         'use strict';
 
         var ctr = this;
@@ -51,6 +51,12 @@ codeTouch.controller('RegisterCtrl', ['$scope', '$rootScope','userFactory',
                         ctr.clear();
                     }
 
+                    // redirect user to home page.
+                    $timeout(() => {
+                        $state.go('app');
+                    }, 5000);
+
+                    ctr.registerLoading = false; // change register button state back
                 })
                 .catch((err) => {
                     ctr.hasError = true;
@@ -58,11 +64,10 @@ codeTouch.controller('RegisterCtrl', ['$scope', '$rootScope','userFactory',
                     ctr.msgTitle = "Error";
                     ctr.msgBody = err.data.message;
                     console.log(err);
-                })
-                .finally(() => ctr.registerLoading = false ); // change register button state back
+                    ctr.registerLoading = false; // change register button state back
+                });
 
         };
-
 
 
         return ctr;

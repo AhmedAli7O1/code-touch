@@ -74,6 +74,7 @@ function register(req, res, userPicture) {
 
 			user.firstname = req.body.firstname;
 			user.lastname = req.body.lastname;
+			user.displayName = user.firstname + ' ' + user.lastname;
 			if (userPicture) {
 				user.imageUrl = "images/" + userPicture;
 			}
@@ -148,6 +149,7 @@ router.post('/login', function (req, res, next) {
 					id: user._id,
 					firstName: user.firstname,
 					lastName: user.lastname,
+					displayName: user.displayName,
 					imageUrl: user.imageUrl,
 					isAdmin: user.admin
 				}
@@ -205,9 +207,37 @@ router.get('/token', verify.token);
 
 // get current user 'owner of this token' info
 router.get('/current', verify.user, function (req, res) {
-	res.status(200).json({
-		userData: req.userData
+
+	// get user data from database 
+	User.findOne({ _id: req.userData.id }, function (err, user) {
+
+
 	});
+
+	User.findOne({ _id: req.userData._id })
+		.exec((err, user) => {
+
+			if (err) {
+				return res.status(500).json({ error: 'error-retrieving-user', message: 'error retrieving the user!' });
+			}
+
+			if (!user) {
+				return res.status(404).json({ error: 'user-not-found', message: 'user not found!' });
+			}
+
+			res.status(200).json({ 
+				userData: {
+					id: user._id,
+					firstName: user.firstname,
+					lastName: user.lastname,
+					displayName: user.displayName,
+					imageUrl: user.imageUrl,
+					isAdmin: user.admin
+				} 
+			});
+
+		});
+
 });
 
 // verify that guest can register with this email

@@ -17,11 +17,10 @@ codeTouch.controller('loginSuccessCtrl', ['$state', '$stateParams', 'localStorag
             .then((res) => {
                 
                 // compine user data with the token
-                userData = res.userData;
-                userData.token = token;
+                res.userData.token = token;
 
                 // now store all needed user data
-                localStorage.storeObject(CONFIG.TOKEN_STORE_KEY, userData);
+                localStorage.storeObject(CONFIG.TOKEN_STORE_KEY, res.userData);
 
                 /*
                  * redirect the user to home page which will detect

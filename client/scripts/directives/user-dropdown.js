@@ -1,5 +1,5 @@
-codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'localStorageFactory', 'CONFIG', '$state',
-    function (user, EVENT, $rootScope, localStorage, CONFIG, $state) {
+codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'localStorageFactory', 'CONFIG', '$state', '$window',
+    function (user, EVENT, $rootScope, localStorage, CONFIG, $state, $window) {
 
         'use strict';
 
@@ -28,8 +28,9 @@ codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'l
                             // save user data in the local storage 
                             localStorage.storeObject(CONFIG.TOKEN_STORE_KEY, userData);
 
-                            // fire login event for all listeners 
-                            $rootScope.$broadcast(EVENT.USER_LOGIN, userData);
+                            $rootScope.userInfo = userData;
+
+                            dir.loginLoading = false; // change login button state back
                              
                         })
                         .catch((err) => {
@@ -42,8 +43,8 @@ codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'l
                                 dir.passErr = true;
                                 dir.emailErr = false;
                             }
-                        })
-                        .finally(() => dir.loginLoading = false ); // change login button state back
+                            dir.loginLoading = false; // change login button state back
+                        });
                 };
 
                 // user logout
@@ -53,20 +54,17 @@ codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'l
                         // remove user data from local storage
                         localStorage.remove(CONFIG.TOKEN_STORE_KEY);
 
-                        // fire logout event
-                        $rootScope.$broadcast(EVENT.USER_LOGOUT);
+                        $rootScope.userInfo = null;
+
                     });
                 };
 
                 // on user login 
                 $rootScope.$on(EVENT.USER_LOGIN, function (e, userData) {
 
-                    // set user data on root scope w'll move that later to userCtrl
-                    $rootScope.userInfo = userData; 
-
                     // change local settings
                     dir.isLoggedIn = true;
-                    dir.fullName = 'Ahmed Ali';
+                    dir.fullName = userData.displayName;
                     dir.userImage = userData.imageUrl;
 
                     //$state.reload(); // reload current state
@@ -76,9 +74,6 @@ codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'l
                 // on user logout
                 scope.$on(EVENT.USER_LOGOUT, function () {
 
-                    // set user data on root scope to null
-                    $rootScope.userInfo = null;
-
                     dir.isLoggedIn = false
                     dir.fullName = '';
                     dir.userImage = '';
@@ -87,13 +82,47 @@ codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'l
                     
                 });
 
-                // on load look for local user Credentials
+                // watch the global user variable
+                $rootScope.$watch('userInfo', function (value) {
+                    // if user data exist log in
+                    if (value) {
+                        $rootScope.$broadcast(EVENT.USER_LOGIN, value);
+                    }
+                    else {
+                        $rootScope.$broadcast(EVENT.USER_LOGOUT);
+                    }
+                }); 
+
+                /**
+                 * on load look for local user Credentials
+                 */
                 var userData = localStorage.getObject(CONFIG.TOKEN_STORE_KEY);
 
-                if (userData) {
+                if (userData && userData.id) {
                     // fire user login event
-                    $rootScope.$broadcast(EVENT.USER_LOGIN, userData);
+                    $rootScope.userInfo = userData;
                 }
+
+                /**
+                 * determine user state on local storage values changes 
+                 */
+
+                scope.$on(EVENT.LOCAL_STORAGE_CHANGE, (event, key, value) => {
+                    // if user data changed
+                    if (key === CONFIG.TOKEN_STORE_KEY) {
+                        if (value && value.id) {
+                            // change user data
+                            $rootScope.userInfo = value;
+                        }
+                    }
+                });
+
+                scope.$on(EVENT.LOCAL_STORAGE_REMOVE, (event, key) => {
+                    // if user data removed
+                    if (key === CONFIG.TOKEN_STORE_KEY) {
+                        $rootScope.userInfo = null;
+                    }
+                });
 
             }
         };

@@ -11,6 +11,7 @@ var userSchema = new Schema({
     oAuthToken: String,
     firstname: String,
     lastname: String,
+    displayName: String,
     imageUrl: {
         type: String,
         default: 'images/user.png'
