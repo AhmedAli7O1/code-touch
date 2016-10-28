@@ -4,6 +4,12 @@ var User = require('../models').User;
 var verify = require('./verify');
 var multer = require('multer');
 var router = express.Router();
+var crypto = require('crypto');
+var config = require('../config');
+
+var mailjet = require ('node-mailjet')
+    .connect(config.MJ_APIKEY_PUBLIC, config.MJ_APIKEY_PRIVATE);
+
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -79,17 +85,97 @@ function register(req, res, userPicture) {
 				user.imageUrl = "images/" + userPicture;
 			}
 				
-			user.save(function (err, user) {
-				passport.authenticate('local')(req, res, function () {
-					return res.json({
-						state: true,
-						message: 'Registration Successful!'
+			// generate email verification key and store it	
+			crypto.randomBytes(30, function(err, buffer) {
+				var key = buffer.toString('hex');
+				user.verifyKey = key;
+
+				// save changes made to the user into db 
+				user.save((err, user) => {
+					passport.authenticate('local')(req, res, function () {
+
+						// send email verification to this user
+						sendMail(user, (err) => {
+							if (err) {
+								console.log(err);
+							}
+
+							return res.json({
+								state: true,
+								message: 'Registration Successful!'
+							});
+
+						});
+
 					});
 				});
+
 			});
 
 		}
 	);
+}
+
+router.get('/confirm/:id/:key', function (req, res) {
+	var id = req.params.id;
+	var key = req.params.key;
+
+	if (!id || !key) {
+		return res.redirect('/#/login/confirm?state=error&type=params');
+	}
+
+	// find user by id
+	User.findOne({ _id: id })
+		.exec((err, user) => {
+
+			if (err || !user) {
+				return res.redirect('/#/login/confirm?state=error&type=locate');
+			}
+
+			if (user.verifyKey !== key) {
+				return res.redirect('/#/login/confirm?state=error&type=key');
+			}
+
+			user.status = 'active';
+			user.save((err) => {
+
+				if (err) {
+					return res.redirect('/#/login/confirm?state=error&type=saving');
+				}
+
+				res.redirect('/#/login/confirm?state=success');
+
+			});
+			
+
+		});
+
+});
+
+// send verification email to the user
+function sendMail(user, cb) {
+
+	var link = user._id + '/' + user.verifyKey;
+
+	var sendEmail = mailjet.post('send');
+
+	var emailData = {
+		"FromEmail": "bluemaxyarkan@gmail.com",
+		"FromName": "Code Touch Task",
+		"Subject": "Please confirm your account at CodeTouch",
+		"Html-part": '<div style="font-family: Arial;"><h1 style="color: #686868;">Code Touch Task</h1><p>Please confirm your account by clicking the following button:<a target="_blank" href="https://code-touch.herokuapp.com/users/confirm/' + link + '" style="margin-top: 20px;width: 150px;height: 30px;background: #3498DB;color: white;font-weight: 600;letter-spacing: 1px;border: none;display: block;text-decoration: none;text-align: center;padding-top: 10px;">Click</a><p>or copy this link and paste in your browser address bar</p>https://code-touch.herokuapp.com/users/confirm/' + link + '</div>',
+		"Recipients": [
+			{
+				"Email": user.username
+			}
+		]
+	};
+
+	sendEmail
+		.request(emailData)
+		.then(() => cb())
+		.catch((err) => cb(err));
+
 }
 
 // login user account
@@ -151,7 +237,8 @@ router.post('/login', function (req, res, next) {
 					lastName: user.lastname,
 					displayName: user.displayName,
 					imageUrl: user.imageUrl,
-					isAdmin: user.admin
+					isAdmin: user.admin,
+					status: user.status
 				}
 			});
 
@@ -232,7 +319,8 @@ router.get('/current', verify.user, function (req, res) {
 					lastName: user.lastname,
 					displayName: user.displayName,
 					imageUrl: user.imageUrl,
-					isAdmin: user.admin
+					isAdmin: user.admin,
+					status: user.status
 				} 
 			});
 

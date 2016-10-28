@@ -28,8 +28,6 @@ codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'l
                             // save user data in the local storage 
                             localStorage.storeObject(CONFIG.TOKEN_STORE_KEY, userData);
 
-                            $rootScope.userInfo = userData;
-
                             dir.loginLoading = false; // change login button state back
                              
                         })
@@ -60,12 +58,16 @@ codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'l
                 };
 
                 // on user login 
-                $rootScope.$on(EVENT.USER_LOGIN, function (e, userData) {
+                scope.$on(EVENT.USER_LOGIN, function (e, userData) {
 
                     // change local settings
                     dir.isLoggedIn = true;
                     dir.fullName = userData.displayName;
                     dir.userImage = userData.imageUrl;
+
+                    if(userData.state !== 'active') {
+                        $rootScope.showEmailConfirmMsg = true;
+                    }
 
                     //$state.reload(); // reload current state
 
@@ -99,8 +101,22 @@ codeTouch.directive('bluUserDropdown', ['userFactory', 'EVENT', '$rootScope', 'l
                 var userData = localStorage.getObject(CONFIG.TOKEN_STORE_KEY);
 
                 if (userData && userData.id) {
-                    // fire user login event
-                    $rootScope.userInfo = userData;
+
+                    // verify user token
+                    user.verifyToken()
+                        .then(() => {
+                            // fires user login event
+                            $rootScope.userInfo = userData;
+                        })
+                        .catch(() => {
+                            // fire user login event
+                            $rootScope.userInfo = null;
+
+                            // clear user data from local storage
+                            localStorage.remove(CONFIG.TOKEN_STORE_KEY);
+
+                        });
+
                 }
 
                 /**

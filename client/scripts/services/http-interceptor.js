@@ -1,5 +1,5 @@
-codeTouch.factory('httpInterceptor', ['$q', '$rootScope', '$log', 'localStorageFactory', 'CONFIG',
-	function ($q, $rootScope, $log, localStorage, CONFIG) {
+codeTouch.factory('httpInterceptor', ['$q', '$rootScope', '$log', 'localStorageFactory', 'CONFIG','ERROR',
+	function ($q, $rootScope, $log, localStorage, CONFIG, ERROR) {
 		return {
 			'request': function (config) {
 				//$log.info({ httpReq: config });
@@ -14,6 +14,21 @@ codeTouch.factory('httpInterceptor', ['$q', '$rootScope', '$log', 'localStorageF
 
 			'requestError': function (rejection) {
 				//$log.error({ httpReqError: rejection });
+
+				if (rejection.data.error === ERRORS.BAD_TOKEN) {
+					// fire Unauthorized User Event
+					$rootScope.$broadcast(EVENTS.USER_REQUIRED);
+				}
+				else if(rejection.data.error === ERRORS.NO_TOKEN){
+					// fire Unauthorized User Event
+					$rootScope.$broadcast(EVENTS.USER_REQUIRED);
+				}
+				else if (rejection.status === ERRORS.NOT_ADMIN) {
+					// fire "Forbidden Action & admin required" event
+					$rootScope.$broadcast(EVENTS.ADMIN_REQUIRED);
+				}
+
+
 				return $q.reject(rejection);
 			},
 

@@ -17,6 +17,7 @@
     "mongoose": "^4.6.5",
     "morgan": "~1.7.0",
     "multer": "^1.2.0",
+    "node-mailjet": "^3.0.5",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
@@ -36,5 +37,5 @@
   "engines": {
     "node": "6.9.1",
     "npm": "3.10.8"
-  } 
+  }
 }

@@ -12,6 +12,7 @@ var userSchema = new Schema({
     firstname: String,
     lastname: String,
     displayName: String,
+    verifyKey: String,
     imageUrl: {
         type: String,
         default: 'images/user.png'

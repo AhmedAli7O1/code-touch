@@ -54,6 +54,18 @@ codeTouch.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 }
             },
             data: { auth: 'none' }
+        })
+        
+        .state('app.confirmEmail', {
+            url: 'login/confirm?state',
+            views: {
+                'content@': {
+                    templateUrl: "views/confirm-email.html",
+                    controller: "confirmEmailCtrl",
+                    controllerAs: "confirmEmail"
+                }
+            },
+            data: { auth: 'none' }
         });
 
     // register the http interceptors
