@@ -38,7 +38,7 @@ it will automatically install all dependencies e.g Node.js MongoDB...etc and it 
 npm install & bower install for you so just keep calm.
 * after vagrant finish preparing your VM, now type `vagrant ssh` or use SSH client e.g putty to login your VM 
 using username "vagrant" and password "vagrant".
-* now you're logged in, type `cd /vagrant` this's the sheard folder between your computer 'host' and the VM 'guest'
+* now you're logged in, type `cd /vagrant` this's the shared folder between your computer 'host' and the VM 'guest'
 and this's where the project source is.
 * to start the server for testing just type `npm start`.
 * on the other hand also I provide `npm stop` to kill the app process if needed.
