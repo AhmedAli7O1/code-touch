@@ -4,7 +4,7 @@ simple task to implement user registration/login in MEAN Stack
 # Features  
 
 * register using local credentials. 
-* register using google account. "use google display name & account".
+* register using google account. "use google display name & profile picture".
 * email verification on register using "local credentials".
 * notification modal shows up to tell the user to verify the email address.  
 * user can resend the verification email again at any time from this modal.
