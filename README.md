@@ -46,6 +46,7 @@ and this's where the project source is.
 * you can also run `gulp watch` which will watch your source for any changes and rebuild the source,
 and it will take care of keeping the server running so you can see the effects of your changes live.
 just run it and forget about the server. 
+* now you can access the app from the 'host' machine browser at `localhost:4000` 
 
 
 
